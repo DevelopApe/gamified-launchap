@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "gamified_progressions",
+  "info": {
+    "singularName": "gamified-progression",
+    "pluralName": "gamified-progressions",
+    "displayName": "Gamified_Progression",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "progressionRules": {
+      "type": "json"
+    },
+    "creationDate": {
+      "type": "datetime"
+    }
+  }
+}

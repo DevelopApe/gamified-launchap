@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "gamified_categories",
+  "info": {
+    "singularName": "gamified-category",
+    "pluralName": "gamified-categories",
+    "displayName": "Gamified_Category"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "blocks"
+    },
+    "gamified_characteristics": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::characteristic.characteristic",
+      "mappedBy": "gamified_categories"
+    }
+  }
+}

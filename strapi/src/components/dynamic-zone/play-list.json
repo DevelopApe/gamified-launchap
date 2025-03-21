@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_dynamic_zone_play_lists",
+  "info": {
+    "displayName": "PlayList",
+    "icon": "music"
+  },
+  "options": {},
+  "attributes": {
+    "audio": {
+      "allowedTypes": [
+        "audios",
+        "videos"
+      ],
+      "type": "media",
+      "multiple": true
+    }
+  }
+}

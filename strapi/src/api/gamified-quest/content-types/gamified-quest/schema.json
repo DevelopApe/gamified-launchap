@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "gamified_quests",
+  "info": {
+    "singularName": "gamified-quest",
+    "pluralName": "gamified-quests",
+    "displayName": "Gamified_Quest"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "gamified_characters": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::character.character",
+      "mappedBy": "gamified_quests"
+    }
+  }
+}

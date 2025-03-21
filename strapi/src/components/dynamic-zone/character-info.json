@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_dynamic_zone_character_infos",
+  "info": {
+    "displayName": "characterInfo",
+    "icon": "alien"
+  },
+  "options": {},
+  "attributes": {
+    "gamified_character": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::character.character"
+    }
+  }
+}

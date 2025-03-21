@@ -1,0 +1,36 @@
+{
+  "collectionName": "components_dynamic_zone_dynamic_heroes",
+  "info": {
+    "displayName": "DynamicHero",
+    "icon": "command",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "videos"
+      ]
+    },
+    "description": {
+      "type": "text"
+    },
+    "buttons": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.button"
+    },
+    "url": {
+      "type": "string"
+    },
+    "messages": {
+      "type": "component",
+      "repeatable": true,
+      "component": "items.pred-message"
+    }
+  }
+}

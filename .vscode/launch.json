@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Next.js Server (Frontend)",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/next/node_modules/next/dist/bin/next",
+        "args": ["dev"],
+        "cwd": "${workspaceFolder}/next",
+        "runtimeExecutable": "node",
+        "port": 9229,
+        "skipFiles": ["<node_internals>/**"],
+        "console": "integratedTerminal"
+      },
+      {
+        "name": "Debug Next.js Client (Frontend)",
+        "type": "chrome",
+        "request": "launch",
+        "url": "http://localhost:3000",
+        "webRoot": "${workspaceFolder}/next",
+        "skipFiles": ["<node_internals>/**"]
+      }
+    ]
+  }

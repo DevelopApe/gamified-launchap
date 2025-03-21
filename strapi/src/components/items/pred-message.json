@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_items_pred_messages",
+  "info": {
+    "displayName": "PredMessage",
+    "icon": "message"
+  },
+  "options": {},
+  "attributes": {
+    "messageText": {
+      "type": "string"
+    },
+    "order": {
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "kind": "collectionType",
+  "collectionName": "characteristics",
+  "info": {
+    "singularName": "characteristic",
+    "pluralName": "characteristics",
+    "displayName": "Gamified_Characteristic",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "Skill",
+        "Knowledge"
+      ],
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "gamified_progression": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::gamified-progression.gamified-progression"
+    },
+    "gamified_characters": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::character.character",
+      "mappedBy": "gamified_characteristics"
+    },
+    "ProgressionDescription": {
+      "type": "json",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "gamified_categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::gamified-category.gamified-category",
+      "inversedBy": "gamified_characteristics"
+    }
+  }
+}

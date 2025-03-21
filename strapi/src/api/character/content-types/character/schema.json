@@ -1,0 +1,58 @@
+{
+  "kind": "collectionType",
+  "collectionName": "characters",
+  "info": {
+    "singularName": "character",
+    "pluralName": "characters",
+    "displayName": "Gamified_Character",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {
+    "i18n": {
+      "localized": true
+    }
+  },
+  "attributes": {
+    "charID": {
+      "type": "uid",
+      "targetField": "nickname"
+    },
+    "nickname": {
+      "type": "string",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "character"
+    },
+    "gamified_characteristics": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::characteristic.characteristic",
+      "inversedBy": "gamified_characters"
+    },
+    "gamified_quests": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::gamified-quest.gamified-quest",
+      "inversedBy": "gamified_characters"
+    },
+    "characteristicsState": {
+      "type": "json",
+      "pluginOptions": {
+        "i18n": {
+          "localized": true
+        }
+      }
+    }
+  }
+}
