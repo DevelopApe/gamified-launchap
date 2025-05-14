@@ -2,6 +2,7 @@ import type { Viewport } from "next";
 import { Locale, i18n } from '@/i18n.config'
 
 import "./globals.css";
+import { SlugProvider } from "./context/SlugContext";
 
 export const viewport: Viewport = {
   themeColor: [
@@ -22,9 +23,11 @@ export default function RootLayout({
   params: { lang: Locale }
 }) {
   return (
-    <html lang={params.lang}>
-      <body>
-        {children}
+    <html lang={params.lang} suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <SlugProvider>
+          {children}
+        </SlugProvider>
       </body>
     </html>
   );

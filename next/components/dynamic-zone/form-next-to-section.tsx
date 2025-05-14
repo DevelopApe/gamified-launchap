@@ -13,26 +13,38 @@ import {
 
 import { Button } from "../elements/button";
 
-export function FormNextToSection({ heading, sub_heading, form, section, social_media_icon_links }: { heading: string, sub_heading: string, form: any, section: any, social_media_icon_links: any }) {
+export function FormNextToSection({ heading, sub_heading, form, section, social_media_icon_links, onSubmit }: { heading: string, sub_heading: string, form: any, section: any, social_media_icon_links: any, onSubmit?: () => void }) {
 
   const socials = [
     {
       title: "twitter",
+<<<<<<< HEAD
       href: "https://twitter.com/gamified",
+=======
+      href: "https://twitter.com/strapijs",
+>>>>>>> upstream/main
       icon: (
         <IconBrandX className="h-5 w-5 text-muted  hover:text-neutral-100" />
       ),
     },
     {
       title: "github",
+<<<<<<< HEAD
       href: "https://github.com/developape",
+=======
+      href: "https://github.com/strapi",
+>>>>>>> upstream/main
       icon: (
         <IconBrandGithub className="h-5 w-5 text-muted  hover:text-neutral-100" />
       ),
     },
     {
       title: "linkedin",
+<<<<<<< HEAD
       href: "https://linkedin.com/developape",
+=======
+      href: "https://linkedin.com/strapi",
+>>>>>>> upstream/main
       icon: (
         <IconBrandLinkedin className="h-5 w-5 text-muted  hover:text-neutral-100" />
       ),
@@ -78,7 +90,7 @@ export function FormNextToSection({ heading, sub_heading, form, section, social_
                         />
                       ) : input.type === 'submit' ? (
                         <div>
-                          <Button className="w-full mt-6">{input.name}</Button>
+                          <Button className="w-full mt-6" onClick={onSubmit}>{input.name}</Button>
                         </div>
                       ) :
                         <input

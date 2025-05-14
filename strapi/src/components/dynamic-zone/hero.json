@@ -18,6 +18,7 @@
       "type": "component",
       "repeatable": true,
       "component": "shared.button"
+<<<<<<< HEAD
     },
     "backgroundType": {
       "type": "enumeration",
@@ -26,6 +27,8 @@
         "matrix",
         "particles"
       ]
+=======
+>>>>>>> upstream/main
     }
   }
 }

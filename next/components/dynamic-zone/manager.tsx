@@ -14,8 +14,11 @@ interface Props {
 
 const componentMapping: { [key: string]: any } = {
   'dynamic-zone.hero': dynamic(() => import('./hero').then(mod => mod.Hero), { ssr: false }),
+<<<<<<< HEAD
   'dynamic-zone.dynamic-hero': dynamic(() => import('./dynamic-hero').then(mod => mod.DynamicHero), { ssr: false }),
   'dynamic-zone.play-list': dynamic(() => import('./playlist').then((mod) => mod.Playlist), { ssr: false }),
+=======
+>>>>>>> upstream/main
   'dynamic-zone.features': dynamic(() => import('./features').then(mod => mod.Features), { ssr: false }),
   'dynamic-zone.testimonials': dynamic(() => import('./testimonials').then(mod => mod.Testimonials), { ssr: false }),
   'dynamic-zone.how-it-works': dynamic(() => import('./how-it-works').then(mod => mod.HowItWorks), { ssr: false }),

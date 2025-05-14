@@ -41,30 +41,6 @@
     },
     "placeholder": {
       "type": "string"
-    },
-    "target_submit": {
-      "type": "enumeration",
-      "enum": [
-        "_blank",
-        "_self",
-        "_parent",
-        "_top"
-      ]
-    },
-    "variant_submit": {
-      "type": "enumeration",
-      "enum": [
-        "simple",
-        "outline",
-        "primary",
-        "muted"
-      ]
-    },
-    "function_submit": {
-      "type": "enumeration",
-      "enum": [
-        "sendContactForm"
-      ]
     }
   }
 }

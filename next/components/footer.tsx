@@ -10,7 +10,11 @@ export const Footer = async ({ data, locale }: { data: any, locale: string }) =>
           <div>
             <div className="mr-4  md:flex mb-4">
               {data?.logo?.image && (
+<<<<<<< HEAD
                 <Logo image={data?.logo?.image} locale={data?.logo?.locale} company={data?.logo?.company} />
+=======
+                <Logo image={data?.logo?.image} />
+>>>>>>> upstream/main
               )}
             </div>
             <div className="max-w-xs">{data?.description}</div>
@@ -24,11 +28,14 @@ export const Footer = async ({ data, locale }: { data: any, locale: string }) =>
               <a className="text-white underline" href="https://strapi.io">
                 Strapi
               </a>
+<<<<<<< HEAD
               {" "}||{" "}
               Modified by {" "}
               <a className="text-white underline" href="https://github.com/DevelopApe">
                 DevelopApe
               </a>
+=======
+>>>>>>> upstream/main
             </div>
             <div className="mt-2">
               built with{" "}
