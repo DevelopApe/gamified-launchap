@@ -9,7 +9,6 @@ import { Subheading } from "../elements/subheading";
 import { Button } from "../elements/button";
 import { Cover } from "../decorations/cover";
 import { motion } from "framer-motion";
-<<<<<<< HEAD
 import MatrixBackground from "../decorations/matrix-background";
 import ParticleBackground from "../decorations/particle-background";
 
@@ -32,10 +31,6 @@ export const Hero = ({ heading, sub_heading, CTAs, locale, backgroundType }: { h
         return null;
     }
   };
-=======
-
-export const Hero = ({ heading, sub_heading, CTAs, locale }: { heading: string; sub_heading: string; CTAs: any[], locale: string }) => {
->>>>>>> upstream/main
   return (
     <div className="h-screen overflow-hidden relative flex flex-col items-center justify-center">
       <motion.div
@@ -43,12 +38,7 @@ export const Hero = ({ heading, sub_heading, CTAs, locale }: { heading: string; 
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.5 }}
       >
-<<<<<<< HEAD
         {renderBackground()}
-=======
-        <StarBackground />
-        <ShootingStars />
->>>>>>> upstream/main
       </motion.div>
       <Heading
         as="h1"
@@ -75,3 +65,4 @@ export const Hero = ({ heading, sub_heading, CTAs, locale }: { heading: string; 
     </div>
   );
 };
+
