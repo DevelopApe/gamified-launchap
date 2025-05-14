@@ -53,13 +53,9 @@
         "dynamic-zone.launches",
         "dynamic-zone.cta",
         "dynamic-zone.form-next-to-section",
-<<<<<<< HEAD
         "dynamic-zone.faq",
         "dynamic-zone.dynamic-hero",
         "dynamic-zone.character-info"
-=======
-        "dynamic-zone.faq"
->>>>>>> upstream/main
       ]
     }
   }
