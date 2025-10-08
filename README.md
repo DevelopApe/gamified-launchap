@@ -12,6 +12,50 @@ This repository contains the following:
 
 Strap yourself in! You can get started with this project on your local machine by following the instructions below, or you can [request a private instance on our website](https://strapi.io/demo)
 
+## 🐳 Quick Start with Docker (Recommended)
+
+The fastest way to get LaunchPad running is with Docker:
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/strapi/launchpad.git
+   cd launchpad
+   ```
+
+2. **Set up environment variables**
+   ```bash
+   cp .env.example .env
+   ```
+   Edit the `.env` file with your configuration.
+
+3. **Start with Docker**
+   ```bash
+   # For production
+   docker-compose up -d
+   
+   # Or using make (if available)
+   make prod
+   ```
+
+4. **Access your application**
+   - Frontend: http://localhost:3000
+   - Strapi Admin: http://localhost:1337/admin
+   - API: http://localhost:1337/api
+
+### Docker Commands
+
+- `docker-compose up -d` - Start all services
+- `docker-compose down` - Stop all services  
+- `docker-compose logs -f` - View logs
+- `make help` - See all available commands (if Make is installed)
+
+### Development with Docker
+
+For development mode (with hot reload):
+```bash
+docker-compose -f docker-compose.dev.yml up -d
+```
+
 ## 1. Clone Launchpad
 
 To infinity and beyond! 🚀 Clone the repo with this command:
