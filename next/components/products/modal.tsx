@@ -1,17 +1,19 @@
-"use client";
-import React from "react";
+'use client';
+
+import { IconTrash } from '@tabler/icons-react';
+import Image from 'next/image';
+import React from 'react';
+
 import {
   Modal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalTrigger,
-} from "../ui/animated-modal";
-import Image from "next/image";
-import { useCart } from "@/context/cart-context";
-import { formatNumber } from "@/lib/utils";
-import { IconTrash } from "@tabler/icons-react";
-import { strapiImage } from "@/lib/strapi/strapiImage";
+} from '../ui/animated-modal';
+import { StrapiImage } from '@/components/ui/strapi-image';
+import { useCart } from '@/context/cart-context';
+import { formatNumber } from '@/lib/utils';
 
 export default function AddToCartModal({ onClick }: { onClick: () => void }) {
   const { items, updateQuantity, getCartTotal, removeFromCart } = useCart();
@@ -34,19 +36,19 @@ export default function AddToCartModal({ onClick }: { onClick: () => void }) {
           <div className="flex flex-col  divide-y divide-neutral-100">
             {items.map((item, index) => (
               <div
-                key={"purchased-item" + index}
+                key={'purchased-item' + index}
                 className="flex gap-2 justify-between items-center py-4"
               >
                 <div className="flex items-center gap-4">
-                  <Image
-                    src={strapiImage(item.product.images[0].url)}
+                  <StrapiImage
+                    src={item.product?.images?.[0].url}
                     alt={item.product.name}
                     width={60}
                     height={60}
                     className="rounded-lg hidden md:block"
                   />
                   <span className="text-black text-sm md:text-base font-medium">
-                    {" "}
+                    {' '}
                     {item.product.name}
                   </span>
                 </div>
@@ -64,8 +66,8 @@ export default function AddToCartModal({ onClick }: { onClick: () => void }) {
                     step="1"
                     className="w-16 p-2 h-full rounded-md focus:outline-none bg-neutral-50 border border-neutral-100 focus:bg-neutral-100 text-black mr-4"
                     style={{
-                      WebkitAppearance: "none",
-                      MozAppearance: "textfield",
+                      WebkitAppearance: 'none',
+                      MozAppearance: 'textfield',
                     }}
                   />
                   <div className="text-black text-sm font-medium w-20">
@@ -81,7 +83,7 @@ export default function AddToCartModal({ onClick }: { onClick: () => void }) {
         </ModalContent>
         <ModalFooter className="gap-4 items-center">
           <div className="text-neutral-700 ">
-            total amount{" "}
+            total amount{' '}
             <span className="font-bold">${formatNumber(getCartTotal())}</span>
           </div>
           <button

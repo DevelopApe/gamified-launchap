@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    remotePatterns: [{ hostname: process.env.IMAGE_HOSTNAME || "localhost" }],
+  turbopack: {
+    root: process.cwd().replace('/next', ''),
   },
-  pageExtensions: ["ts", "tsx"],
+  images: {
+    remotePatterns: [{ hostname: process.env.IMAGE_HOSTNAME || 'localhost' }],
+  },
+  pageExtensions: ['ts', 'tsx'],
   async redirects() {
     let redirections = [];
     try {

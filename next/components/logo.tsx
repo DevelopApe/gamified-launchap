@@ -1,12 +1,11 @@
-import React from "react";
+import { Link } from 'next-view-transitions';
+import React from 'react';
 
-import { Link } from "next-view-transitions";
-import { BlurImage } from "./blur-image";
+import { BlurImage } from './blur-image';
+import { strapiImage } from '@/lib/strapi/strapiImage';
+import { Image } from '@/types/types';
 
-import { strapiImage } from "@/lib/strapi/strapiImage";
-import { Image } from "@/types/types";
-
-export const Logo = ({ image, locale, company }: { image?: Image, locale?: string, company?: string }) => {
+export const Logo = ({ image, locale }: { image?: Image; locale?: string }) => {
   if (image) {
     return (
       <Link
@@ -21,7 +20,7 @@ export const Logo = ({ image, locale, company }: { image?: Image, locale?: strin
           className="h-10 w-10 rounded-xl mr-2"
         />
 
-        <span className="text-white font-bold">{company ? company : "Gamified"}</span>
+        <span className="text-white font-bold">LaunchPad</span>
       </Link>
     );
   }

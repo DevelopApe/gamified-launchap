@@ -1,5 +1,6 @@
-import { draftMode } from "next/headers";
-import qs from "qs";
+import { draftMode } from 'next/headers';
+import qs from 'qs';
+
 /**
  * Fetches data for a specified Strapi content type.
  *
@@ -24,22 +25,21 @@ export function spreadStrapiData(data: StrapiResponse): StrapiData | null {
   if (!Array.isArray(data.data)) {
     return data.data;
   }
-  return null
+  return null;
 }
 
 export default async function fetchContentType(
   contentType: string,
   params: Record<string, unknown> = {},
-  spreadData?: boolean,
+  spreadData?: boolean
 ): Promise<any> {
-  const { isEnabled } = await draftMode()
+  const { isEnabled: isDraftMode } = await draftMode();
 
   try {
-
     const queryParams = { ...params };
 
-    if (isEnabled) {
-      queryParams.status = "draft";
+    if (isDraftMode) {
+      queryParams.status = 'draft';
     }
 
     // Construct the full URL for the API request
@@ -49,15 +49,24 @@ export default async function fetchContentType(
     const response = await fetch(`${url.href}?${qs.stringify(queryParams)}`, {
       method: 'GET',
       cache: 'no-store',
+      headers: {
+        'strapi-encode-source-maps': isDraftMode ? 'true' : 'false',
+      },
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch data from Strapi (url=${url.toString()}, status=${response.status})`);
+      console.error(
+        `Failed to fetch data from Strapi (url=${url.toString()}, status=${response.status})`
+      );
+      // Return appropriate fallback based on expected data structure
+      return spreadData ? null : { data: [] };
     }
     const jsonData: StrapiResponse = await response.json();
     return spreadData ? spreadStrapiData(jsonData) : jsonData;
   } catch (error) {
     // Log any errors that occur during the fetch process
     console.error('FetchContentTypeError', error);
+    // Return appropriate fallback based on expected data structure
+    return spreadData ? null : { data: [] };
   }
 }

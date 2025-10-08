@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState, useRef, useEffect, memo } from "react";
-import Image from "next/image";
-import { Transition } from "@headlessui/react";
-import { SparklesCore } from "../../ui/sparkles";
-import { cn } from "@/lib/utils";
-import { strapiImage } from "@/lib/strapi/strapiImage";
+import { Transition } from '@headlessui/react';
+import { memo, useEffect, useRef, useState } from 'react';
+
+import { SparklesCore } from '../../ui/sparkles';
+import { StrapiImage } from '@/components/ui/strapi-image';
+import { cn } from '@/lib/utils';
 
 export const TestimonialsSlider = ({ testimonials }: { testimonials: any }) => {
   const [active, setActive] = useState<number>(0);
@@ -33,15 +33,15 @@ export const TestimonialsSlider = ({ testimonials }: { testimonials: any }) => {
     heightFix();
 
     const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
+      if (document.visibilityState === 'visible') {
         heightFix();
       }
     };
 
-    document.addEventListener("visibilitychange", handleVisibilityChange);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
@@ -80,9 +80,9 @@ export const TestimonialsSlider = ({ testimonials }: { testimonials: any }) => {
                     beforeEnter={() => heightFix()}
                   >
                     <div className="absolute inset-0 h-full -z-10">
-                      <Image
+                      <StrapiImage
                         className="relative top-11 left-1/2 -translate-x-1/2 rounded-full"
-                        src={strapiImage(item.user.image.url)}
+                        src={item.user.image.url}
                         width={56}
                         height={56}
                         alt={`${item.user.firstname} ${item.user.lastname}`}
@@ -119,9 +119,10 @@ export const TestimonialsSlider = ({ testimonials }: { testimonials: any }) => {
               {slicedTestimonials.map((item: any, index: number) => (
                 <button
                   className={cn(
-                    `px-2 py-1 rounded-full m-1.5 text-xs border border-transparent text-neutral-300 transition duration-150 ease-in-out [background:linear-gradient(theme(colors.neutral.900),_theme(colors.neutral.900))_padding-box,_conic-gradient(theme(colors.neutral.400),_theme(colors.neutral.700)_25%,_theme(colors.neutral.700)_75%,_theme(colors.neutral.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-neutral-800/30 before:rounded-full before:pointer-events-none ${active === index
-                      ? "border-secondary/50"
-                      : "border-transparent opacity-70"
+                    `px-2 py-1 rounded-full m-1.5 text-xs border border-transparent text-neutral-300 transition duration-150 ease-in-out [background:linear-gradient(theme(colors.neutral.900),_theme(colors.neutral.900))_padding-box,_conic-gradient(theme(colors.neutral.400),_theme(colors.neutral.700)_25%,_theme(colors.neutral.700)_75%,_theme(colors.neutral.400)_100%)_border-box] relative before:absolute before:inset-0 before:bg-neutral-800/30 before:rounded-full before:pointer-events-none ${
+                      active === index
+                        ? 'border-secondary/50'
+                        : 'border-transparent opacity-70'
                     }`
                   )}
                   key={index}
@@ -133,11 +134,11 @@ export const TestimonialsSlider = ({ testimonials }: { testimonials: any }) => {
                   <span className="relative">
                     <span className="text-neutral-50 font-bold">
                       {item.user.firstname + item.user.lastname}
-                    </span>{" "}
+                    </span>{' '}
                     <br className="block sm:hidden" />
                     <span className="text-neutral-600 hidden sm:inline-block">
                       -
-                    </span>{" "}
+                    </span>{' '}
                     <span className="hidden sm:inline-block">
                       {item.user.job}
                     </span>
