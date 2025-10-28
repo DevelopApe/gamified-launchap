@@ -54,7 +54,8 @@ export const DesktopNavbar = ({
       )}
       animate={{
         width: showBackground ? '80%' : '100%',
-        background: showBackground ? 'var(--neutral-900)' : 'transparent',
+        // animate backgroundColor between two RGBA values so Motion can interpolate
+        backgroundColor: showBackground ? 'rgba(17, 24, 39, 1)' : 'rgba(0, 0, 0, 0)'
       }}
       transition={{
         duration: 0.4,

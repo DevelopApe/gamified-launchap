@@ -35,17 +35,17 @@ export default function MatrixBackground() {
                        "{drinkCoffee()}☕️🐛🔧if(code.works){dontTouchIt();}🙈🙉🙊 #IfItAintBrokeDontFixIt";
 
     function drawMatrix() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
-      ctx.fillRect(0, 0, canvas.width, canvas.height)
+      ctx!.fillStyle = 'rgba(0, 0, 0, 0.05)'
+      ctx!.fillRect(0, 0, canvas!.width, canvas!.height)
 
-      ctx.fillStyle = '#0F0'
-      ctx.font = '15px monospace'
+      ctx!.fillStyle = '#0F0'
+      ctx!.font = '15px monospace'
 
       for (let i = 0; i < drops.length; i++) {
         const text = matrix[Math.floor(Math.random() * matrix.length)]
-        ctx.fillText(text, i * 20, drops[i] * 20)
+        ctx!.fillText(text, i * 20, drops[i] * 20)
 
-        if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+        if (drops[i] * 20 > canvas!.height && Math.random() > 0.975) {
           drops[i] = 0
         }
 
@@ -78,5 +78,5 @@ export default function MatrixBackground() {
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="fixed inset-0 z-[-1] w-full h-full" />
+    return <canvas ref={canvasRef} className="h-full w-full absolute inset-0" />
 }

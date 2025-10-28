@@ -29,7 +29,7 @@ export default function ParticleBackground() {
     }
 
     function animate() {
-      ctx!.clearRect(0, 0, canvas.width, canvas.height)
+      ctx!.clearRect(0, 0, canvas!.width, canvas!.height)
       ctx!.fillStyle = 'rgba(255, 255 , 255, 0.5)'
 
       particles.forEach((particle) => {
@@ -61,5 +61,5 @@ export default function ParticleBackground() {
     }
   }, [])
 
-  return <canvas ref={canvasRef} className="fixed inset-0 z-[-1]" />
+  return <canvas ref={canvasRef} className="h-full w-full absolute inset-0" />
 }
