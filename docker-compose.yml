@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  strapi:
+    build:
+      context: ./strapi
+    ports:
+      - "1337:1337"
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - ./strapi:/srv/app
+    command: yarn develop
+
+  next:
+    build:
+      context: ./next
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - strapi

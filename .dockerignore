@@ -1,0 +1,10 @@
+node_modules
+.next
+dist
+build
+npm-debug.log
+.env
+.env.*
+package-lock.json
+yarn-error.log
+yarn.lock
