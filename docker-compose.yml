@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  # Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: gamified-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-gamified}
+      POSTGRES_USER: ${DATABASE_USERNAME:-strapi}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-strapi}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - gamified-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-strapi} -d ${DATABASE_NAME:-gamified}"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # Strapi Backend
+  strapi:
+    build:
+      context: ./strapi
+      dockerfile: Dockerfile
+    container_name: gamified-strapi
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${DATABASE_NAME:-gamified}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-strapi}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-strapi}
+      JWT_SECRET: ${JWT_SECRET:-your-jwt-secret-here}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET:-your-admin-jwt-secret-here}
+      APP_KEYS: ${APP_KEYS:-your-app-keys-here}
+      API_TOKEN_SALT: ${API_TOKEN_SALT:-your-api-token-salt-here}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT:-your-transfer-token-salt-here}
+      HOST: 0.0.0.0
+      PORT: 1337
+    volumes:
+      - strapi_uploads:/app/public/uploads
+    ports:
+      - "1337:1337"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - gamified-network
+
+  # Next.js Frontend
+  nextjs:
+    build:
+      context: ./next
+      dockerfile: Dockerfile
+    container_name: gamified-nextjs
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: http://strapi:1337
+      IMAGE_HOSTNAME: strapi
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+    ports:
+      - "3000:3000"
+    depends_on:
+      - strapi
+    networks:
+      - gamified-network
+
+  # Nginx Reverse Proxy (Optional)
+  nginx:
+    image: nginx:alpine
+    container_name: gamified-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - nextjs
+      - strapi
+    networks:
+      - gamified-network
+
+volumes:
+  postgres_data:
+    driver: local
+  strapi_uploads:
+    driver: local
+
+networks:
+  gamified-network:
+    driver: bridge

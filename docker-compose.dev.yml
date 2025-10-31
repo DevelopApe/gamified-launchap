@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # Database for development
+  postgres:
+    image: postgres:15-alpine
+    container_name: gamified-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-gamified_dev}
+      POSTGRES_USER: ${DATABASE_USERNAME:-strapi}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-strapi}
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - gamified-dev-network
+
+  # Strapi Backend for development
+  strapi-dev:
+    build:
+      context: ./strapi
+      dockerfile: Dockerfile
+      target: deps
+    container_name: gamified-strapi-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${DATABASE_NAME:-gamified_dev}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-strapi}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-strapi}
+      JWT_SECRET: ${JWT_SECRET:-dev-jwt-secret}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET:-dev-admin-jwt-secret}
+      APP_KEYS: ${APP_KEYS:-dev-app-keys}
+      API_TOKEN_SALT: ${API_TOKEN_SALT:-dev-api-token-salt}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT:-dev-transfer-token-salt}
+      HOST: 0.0.0.0
+      PORT: 1337
+    volumes:
+      - ./strapi:/app
+      - strapi_dev_uploads:/app/public/uploads
+      - /app/node_modules
+    ports:
+      - "1337:1337"
+    depends_on:
+      - postgres
+    networks:
+      - gamified-dev-network
+    command: yarn develop
+
+volumes:
+  postgres_dev_data:
+    driver: local
+  strapi_dev_uploads:
+    driver: local
+
+networks:
+  gamified-dev-network:
+    driver: bridge
