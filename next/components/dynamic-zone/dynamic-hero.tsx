@@ -56,13 +56,17 @@ export const DynamicHero = ({ media, description, buttons }: {media: any, descri
       { threshold: 0.1 }
     );
 
-    if (heroRef.current) {
-      observer.observe(heroRef.current);
+    // Copy the ref value into a local variable so the cleanup closure
+    // uses the same node reference that was observed. This prevents the
+    // ESLint warning about the ref changing between effect run and cleanup.
+    const node = heroRef.current;
+    if (node) {
+      observer.observe(node);
     }
 
     return () => {
-      if (heroRef.current) {
-        observer.unobserve(heroRef.current);
+      if (node) {
+        observer.unobserve(node);
       }
     };
   }, []);

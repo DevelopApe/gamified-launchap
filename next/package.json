@@ -37,6 +37,7 @@
     "react-dom": "19.1.1",
     "react-fast-marquee": "^1.6.5",
     "react-icons": "^5.2.1",
+    "react-type-animation": "^3.2.0",
     "react-wrap-balancer": "^1.1.1",
     "sharp": "^0.33.5",
     "tailwind-merge": "^2.4.0",
@@ -60,5 +61,6 @@
   "resolutions": {
     "@types/react": "19.1.10",
     "@types/react-dom": "19.1.7"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
