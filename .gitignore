@@ -10,3 +10,7 @@ node_modules
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+ 
+# Ignore local compose files; keep only example templates in git
+docker-compose*.yml
+!docker-compose.*.example.yml
