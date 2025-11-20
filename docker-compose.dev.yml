@@ -13,7 +13,7 @@ services:
     volumes:
       - postgres_dev_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - '5432:5432'
     networks:
       - gamified-dev-network
 
@@ -45,7 +45,7 @@ services:
       - strapi_dev_uploads:/app/public/uploads
       - /app/node_modules
     ports:
-      - "1337:1337"
+      - '1337:1337'
     depends_on:
       - postgres
     networks:

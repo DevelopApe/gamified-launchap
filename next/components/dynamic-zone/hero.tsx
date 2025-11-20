@@ -5,6 +5,8 @@ import Link from 'next/link';
 import React from 'react';
 
 import { Cover } from '../decorations/cover';
+import MatrixBackground from '../decorations/matrix-background';
+import ParticleBackground from '../decorations/particle-background';
 import ShootingStars from '../decorations/shooting-star';
 import StarBackground from '../decorations/star-background';
 import { Button } from '../elements/button';
@@ -16,12 +18,37 @@ export const Hero = ({
   sub_heading,
   CTAs,
   locale,
+  backgroundType,
 }: {
   heading: string;
   sub_heading: string;
   CTAs: any[];
   locale: string;
+  backgroundType?: string;
 }) => {
+  const renderBackground = () => {
+    switch (backgroundType) {
+      case 'stellar':
+        return (
+          <>
+            <StarBackground />
+            <ShootingStars />
+          </>
+        );
+      case 'matrix':
+        return <MatrixBackground />;
+      case 'particles':
+        return <ParticleBackground />;
+      default:
+        return (
+          <>
+            <StarBackground />
+            <ShootingStars />
+          </>
+        );
+    }
+  };
+
   return (
     <div className="h-screen overflow-hidden relative flex flex-col items-center justify-center">
       <motion.div
@@ -29,8 +56,7 @@ export const Hero = ({
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.5 }}
       >
-        <StarBackground />
-        <ShootingStars />
+        {renderBackground()}
       </motion.div>
       <Heading
         as="h1"

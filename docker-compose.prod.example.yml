@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: strapi
+      POSTGRES_USER: strapi
+      POSTGRES_PASSWORD: changeme
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - traefik
+
+  strapi:
+    build:
+      context: ./strapi
+      target: runner
+    environment:
+      NODE_ENV: production
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: strapi
+      DATABASE_USERNAME: strapi
+      DATABASE_PASSWORD: changeme
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.strapi.rule=Host(`strapi.example.com`)'
+      - 'traefik.http.services.strapi.loadbalancer.server.port=1337'
+      - 'traefik.http.routers.strapi.entrypoints=websecure'
+      - 'traefik.http.routers.strapi.tls=true'
+      - 'traefik.http.routers.strapi.tls.certresolver=le'
+    networks:
+      - traefik
+    depends_on:
+      - postgres
+
+  next:
+    build:
+      context: ./next
+      target: runner
+    environment:
+      NODE_ENV: production
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.next.rule=Host(`example.com`)'
+      - 'traefik.http.services.next.loadbalancer.server.port=3000'
+      - 'traefik.http.routers.next.entrypoints=websecure'
+      - 'traefik.http.routers.next.tls=true'
+      - 'traefik.http.routers.next.tls.certresolver=le'
+    networks:
+      - traefik
+    depends_on:
+      - strapi
+
+volumes:
+  pgdata:
+
+networks:
+  traefik:
+    external: true

@@ -1,52 +1,65 @@
-# Use the official Node.js 18 image as the base image
+## Multi-stage Dockerfile for Strapi (works for dev and production)
+## Stages:
+##  - base    : base image
+##  - deps    : install dependencies (cached by lockfile)
+##  - builder : build the application
+##  - runner  : runtime image (non-root)
+
 FROM node:18-alpine AS base
+WORKDIR /srv/app
+RUN corepack enable || true
 
-# Install dependencies only when needed
 FROM base AS deps
+# glibc compat and other minimal packages if needed by native deps
 RUN apk add --no-cache libc6-compat
-WORKDIR /app
+WORKDIR /srv/app
 
-# Install dependencies based on the preferred package manager
+# Copy lockfiles and package.json (and any scripts used by lifecycle hooks)
+# We copy only what's needed for dependency install so Docker can cache this layer
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+COPY scripts ./scripts
 
-# Rebuild the source code only when needed
+# Install dependencies depending on available lockfile. Prefer yarn, then npm, then pnpm.
+RUN if [ -f yarn.lock ]; then \
+			yarn install --frozen-lockfile --production=false; \
+		elif [ -f package-lock.json ]; then \
+			npm ci --no-audit --no-fund; \
+		elif [ -f pnpm-lock.yaml ]; then \
+			npm install -g pnpm && pnpm i --frozen-lockfile; \
+		else \
+			npm install --no-audit --no-fund; \
+		fi
+
 FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+WORKDIR /srv/app
+# Reuse installed node_modules from deps stage
+COPY --from=deps /srv/app/node_modules ./node_modules
+# Copy the rest of the source
 COPY . .
 
-# Build the Strapi application
+# Build for production (ok if it fails for dev images)
 ENV NODE_ENV=production
-RUN yarn build
+RUN if [ -f package.json ]; then npm run build || true; fi
 
-# Production image, copy all the files and run strapi
-FROM base AS runner
-WORKDIR /app
-
+FROM node:18-alpine AS runner
+WORKDIR /srv/app
 ENV NODE_ENV=production
 
-RUN addgroup --system --gid 1001 strapi
-RUN adduser --system --uid 1001 strapi
+# create a non-root user
+RUN addgroup -S strapi && adduser -S -G strapi strapi
 
-# Copy built application
-COPY --from=builder --chown=strapi:strapi /app ./
+# Copy built app from builder
+COPY --from=builder /srv/app .
 
-# Create necessary directories and set permissions
-RUN mkdir -p /app/public/uploads
-RUN chown -R strapi:strapi /app
+# Ensure uploads folder exists and correct ownership
+RUN mkdir -p /srv/app/public/uploads && chown -R strapi:strapi /srv/app
 
 USER strapi
 
 EXPOSE 1337
 
-# Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:1337/_health || exit 1
+	CMD curl -f http://localhost:1337/_health || exit 1
 
-CMD ["yarn", "start"]
+# Default command runs in production; docker-compose.dev.yml can override to `npm run develop`
+CMD ["npm", "run", "start"]

@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  strapi:
+    build:
+      context: ./strapi
+    env_file:
+      - .env
+    volumes:
+      - ./strapi:/srv/app
+      # Preserve node_modules installed inside the image. When you bind-mount
+      # the project folder ./strapi into /srv/app, it hides the node_modules
+      # that were installed during image build. Use an anonymous volume for
+      # /srv/app/node_modules so the container keeps its installed deps.
+      - /srv/app/node_modules
+      - ./strapi/uploads:/srv/app/public/uploads
+    # Override HOST to 0.0.0.0 so Strapi binds to all interfaces inside the container
+    # (otherwise it may bind to 127.0.0.1 and not be reachable from the host).
+    # DATABASE_HOST defaults to host.docker.internal so the container can use
+    # a Postgres instance running on the host machine during development.
+    environment:
+      - DATABASE_HOST=host.docker.internal
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+    ports:
+      - '1337:1337'
+    # Run as root in development so the container can write generated files
+    # to bind-mounted project folders on the host (avoids EACCES when dist/
+    # is created during the build or dev server run). This is OK for local dev
+    # but DO NOT use in production.
+    user: '0:0'
+    command: yarn develop
+
+  next:
+    build:
+      context: ./next
+    env_file:
+      - .env
+    volumes:
+      - ./next:/app
+    ports:
+      - '3000:3000'
+    # Force Next to listen on 0.0.0.0:3000 inside the container so the
+    # host-to-container port mapping works even if `.env` contains a shared
+    # PORT value. This overrides any PORT defined in the shared `.env`.
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=3000
+    command: yarn dev -- -H 0.0.0.0 -p 3000
+    depends_on:
+      - strapi
+  # Note: two common dev options:
+  # 1) Use Postgres running on your host machine (recommended for local dev)
+  #    - Keep DATABASE_HOST=host.docker.internal in the `strapi` service env.
+  #    - Start Postgres locally (outside Docker) and ensure it listens on 0.0.0.0
+  #      or that Docker Desktop's host.docker.internal resolves to it.
+  # 2) Run Postgres as a service inside this compose file (uncomment below).
+  #    - Set DATABASE_HOST=postgres in the `strapi` env and uncomment the
+  #      `postgres` service and the `volumes:` declaration at the bottom.
+
+  # postgres:
+  #   image: postgres:15-alpine
+  #   restart: unless-stopped
+  #   environment:
+  #     POSTGRES_DB: gamified_launchpad
+  #     POSTGRES_USER: strapi
+  #     POSTGRES_PASSWORD: d3v3l0p4p3STRAPI
+  #   volumes:
+  #     - pgdata_dev:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+# If you enabled the postgres service above, uncomment the `volumes:` block
+# below to persist DB data between runs. If you keep Postgres on the host,
+# you don't need the `pgdata_dev` volume here.
+#
+#volumes:
+#  pgdata_dev:

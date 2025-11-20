@@ -16,7 +16,13 @@ export const Footer = async ({
         <div className="max-w-7xl mx-auto text-sm text-neutral-500 flex sm:flex-row flex-col justify-between items-start ">
           <div>
             <div className="mr-4  md:flex mb-4">
-              {data?.logo?.image && <Logo image={data?.logo?.image} />}
+              {data?.logo?.image && (
+                <Logo
+                  image={data?.logo?.image}
+                  locale={data?.logo?.locale}
+                  company={data?.logo?.company}
+                />
+              )}
             </div>
             <div className="max-w-xs">{data?.description}</div>
             <div className="mt-4">{data?.copyright}</div>
@@ -59,6 +65,13 @@ export const Footer = async ({
                 href="https://ui.aceternity.com"
               >
                 Aceternity UI
+              </a>{' '}
+              || Modified by{' '}
+              <a
+                className="text-white underline"
+                href="https://github.com/DevelopApe"
+              >
+                DevelopApe
               </a>
             </div>
           </div>

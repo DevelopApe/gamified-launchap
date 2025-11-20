@@ -54,7 +54,7 @@ export const MobileNavbar = ({
           ' bg-neutral-900  shadow-[0px_-2px_0px_0px_var(--neutral-800),0px_2px_0px_0px_var(--neutral-800)]'
       )}
     >
-        <Logo image={logo?.image} company={logo?.company} />
+      <Logo image={logo?.image} company={logo?.company} />
 
       <IoIosMenu
         className="text-white h-6 w-6"

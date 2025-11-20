@@ -42,8 +42,8 @@ export default async function HomePage(props: {
     },
     true
   );
-
-  const localizedSlugs = pageData.localizations?.reduce(
+  if (!pageData) return;
+  const localizedSlugs = pageData!.localizations?.reduce(
     (acc: Record<string, string>, localization: any) => {
       acc[localization.locale] = '';
       return acc;

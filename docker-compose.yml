@@ -13,11 +13,15 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - '5432:5432'
     networks:
       - gamified-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-strapi} -d ${DATABASE_NAME:-gamified}"]
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${DATABASE_USERNAME:-strapi} -d ${DATABASE_NAME:-gamified}',
+        ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -47,7 +51,7 @@ services:
     volumes:
       - strapi_uploads:/app/public/uploads
     ports:
-      - "1337:1337"
+      - '1337:1337'
     depends_on:
       postgres:
         condition: service_healthy
@@ -68,7 +72,7 @@ services:
       PORT: 3000
       HOSTNAME: 0.0.0.0
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - strapi
     networks:
@@ -80,8 +84,8 @@ services:
     container_name: gamified-nginx
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/ssl:/etc/nginx/ssl:ro

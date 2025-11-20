@@ -1,7 +1,8 @@
 /**
  * gamified-progression service
  */
-
 import { factories } from '@strapi/strapi';
 
-export default factories.createCoreService('api::gamified-progression.gamified-progression');
+export default factories.createCoreService(
+  'api::gamified-progression.gamified-progression'
+);
